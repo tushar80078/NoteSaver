@@ -1,6 +1,6 @@
 <%@page import="com.entities.Note"%>
 <%@page import="com.helper.FactoryProvider"%>
-<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,19 +23,20 @@
     	
     	<form action="UpdateServlets" method="post">
     	
+    	<input value="<%= note.getId() %>" name="noteId" type="hidden"/>
 	  	<div class="form-group ">
 	    <label for="title">Note Title</label>
-	    <input name="title" required type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter Here" value="<%= note.getTitle() %>">
+	    <input name="title" required type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter Here" value="<%= note.getTitle()%>"/>
 	    </div>
 	     
 	     
 	  	<div class="form-group">
 	    <label for="content" >Note Content</label>
-	   	<textarea    name="content" required id="content" placeholder="Enter content herer" class="form-control" style="height:300px"></textarea>
+	   	<textarea    name="content" required id="content" placeholder="Enter content herer" class="form-control" style="height:300px" ><%=note.getContent()%></textarea>
 	   	</div>
 	   	
 	 	<div class="container text-center">
-	 		 <button type="submit" class="btn btn-primary">Add</button>
+	 		 <button type="submit" class="btn btn-success">Save Note</button>
 	 	
 	 	</div>  	
 	 
@@ -45,9 +46,6 @@
     	
     </div>
     
-    <script>
-			let dv=document.getElementById("content");
-			dv.defaultValue.innerHtml=dv.value="<%= note.getContent() %>";
-	</script>
+    
 </body>
 </html>

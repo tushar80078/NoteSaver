@@ -1,9 +1,11 @@
 package com.servlets;
 
 import java.io.IOException;
+
 import java.util.Date;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.entities.Note;
 import com.helper.FactoryProvider;
@@ -24,15 +26,21 @@ public class UpdateServlets extends HttpServlet {
 			String title=request.getParameter("title");
 			String content=request.getParameter("content");
 			
-			Note note=new Note(title, content, new Date());
 			
-			//int noteId=Integer.parseInt(request.getParameter("note_id").trim());
-	    	Session s=FactoryProvider.getFactory().openSession();
-			int noteId = note.getId();
-			System.out.println(noteId);
+			int noteId=Integer.parseInt(request.getParameter("noteId").trim());
+	    	
+			Session s=FactoryProvider.getFactory().openSession();
+			Transaction tx=s.beginTransaction();
+	    	
+	    	Note note=s.get(Note.class, noteId);
+	    	note.setTitle(title);
+	    	note.setContent(content);
+	    	note.setAddedDate(new Date());
+	    	
+	    	response.sendRedirect("all_notes.jsp");
+			tx.commit();
+			s.close();
 			
-			
-		
 			
 		}
 		catch(Exception e)
